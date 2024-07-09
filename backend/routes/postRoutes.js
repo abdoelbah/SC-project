@@ -1,6 +1,6 @@
-import express from "express";
-import PostController from "../controllers/postController.js";
-import protectRoute from "../middlewares/protectRoute.js";
+const express = require('express');
+const PostController = require('../controllers/postController.js');
+const protectRoute = require('../middlewares/protectRoute.js');
 
 const router = express.Router();
 
@@ -12,4 +12,4 @@ router.delete("/:id", protectRoute, PostController.deletePost);
 router.put("/like/:id", protectRoute, PostController.likeUnlikePost);
 router.put("/reply/:id", protectRoute, PostController.replyToPost);
 
-export default router;
+module.exports = router;

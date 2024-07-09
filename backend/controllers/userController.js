@@ -1,9 +1,9 @@
-import User from "../models/userModel.js";
-import Post from "../models/postModel.js";
-import bcrypt from "bcryptjs";
-import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
-import { v2 as cloudinary } from "cloudinary";
-import mongoose from "mongoose";
+const User = require('../models/userModel.js');
+const Post = require('../models/postModel.js');
+const bcrypt = require('bcryptjs');
+const generateTokenAndSetCookie = require('../utils/helpers/generateTokenAndSetCookie.js');
+const cloudinary = require('cloudinary').v2;
+const mongoose = require('mongoose');
 
 class UserController {
     async getUserProfile(req, res) {
@@ -139,4 +139,5 @@ class UserController {
   
 }
 
-export default new UserController();
+module.exports = new UserController();
+

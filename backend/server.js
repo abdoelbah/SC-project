@@ -1,13 +1,13 @@
-import path from "path";
-import express from "express";
-import dotenv from "dotenv";
-import connectDB from "./db/connectDB.js";
-import cookieParser from "cookie-parser";
-import userRoutes from "./routes/userRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
-import { v2 as cloudinary } from "cloudinary";
-import { app, server } from "./socket/socket.js";
-import job from "./cron/cron.js";
+const path = require('path');
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./db/connectDB.js');
+const cookieParser = require('cookie-parser');
+const userRoutes = require('./routes/userRoutes.js');
+const postRoutes = require('./routes/postRoutes.js');
+const cloudinary = require('cloudinary').v2;
+const { app, server } = require('./socket/socket.js');
+const job = require('./cron/cron.js');
 
 dotenv.config();
 

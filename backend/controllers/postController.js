@@ -1,6 +1,7 @@
-import Post from "../models/postModel.js";
-import User from "../models/userModel.js";
-import { v2 as cloudinary } from "cloudinary";
+const Post = require( "../models/postModel.js");
+const User = require("../models/userModel.js" );
+const cloudinary = require('cloudinary').v2;
+
 
 class PostController {
     async createPost(req, res) {
@@ -170,4 +171,4 @@ class PostController {
     }
 }
 
-export default new PostController();
+module.exports = new PostController();
