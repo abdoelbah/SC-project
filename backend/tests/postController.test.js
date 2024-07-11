@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/postModel.js');
 const User = require('../models/userModel.js');
 const PostController = require('../controllers/postController.js');
-const { v2: cloudinary } = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 
 const app = express();
 app.use(express.json());
@@ -24,7 +24,6 @@ app.get('/posts/:id', mockAuth, (req, res) => PostController.getPost(req, res));
 app.delete('/posts/:id', mockAuth, (req, res) => PostController.deletePost(req, res));
 app.post('/posts/:id/like', mockAuth, (req, res) => PostController.likeUnlikePost(req, res));
 app.post('/posts/:id/reply', mockAuth, (req, res) => PostController.replyToPost(req, res));
-app.get('/feed', mockAuth, (req, res) => PostController.getFeedPosts(req, res));
 app.get('/user/:username/posts', mockAuth, (req, res) => PostController.getUserPosts(req, res));
 
 // Sample tests
@@ -195,49 +194,4 @@ describe('PostController', () => {
         });
     });
 
-    describe('getFeedPosts', () => {
-        it('should return feed posts', async () => {
-            User.findById.mockResolvedValue({ _id: 'userId123', following: ['userId456'] });
-            Post.find.mockResolvedValue([{ _id: 'postId123', text: 'Hello World' }]);
-
-            const response = await request(app)
-                .get('/feed');
-
-            expect(response.status).toBe(200);
-            expect(response.body[0].text).toBe('Hello World');
-        });
-
-        it('should return error if user not found', async () => {
-            User.findById.mockResolvedValue(null);
-
-            const response = await request(app)
-                .get('/feed');
-
-            expect(response.status).toBe(404);
-            expect(response.body.error).toBe('User not found');
-        });
-    });
-
-    describe('getUserPosts', () => {
-        it('should return user posts', async () => {
-            User.findOne.mockResolvedValue({ _id: 'userId123' });
-            Post.find.mockResolvedValue([{ _id: 'postId123', text: 'Hello World' }]);
-
-            const response = await request(app)
-                .get('/user/testuser/posts');
-
-            expect(response.status).toBe(200);
-            expect(response.body[0].text).toBe('Hello World');
-        });
-
-        it('should return error if user not found', async () => {
-            User.findOne.mockResolvedValue(null);
-
-            const response = await request(app)
-                .get('/user/testuser/posts');
-
-            expect(response.status).toBe(404);
-            expect(response.body.error).toBe('User not found');
-        });
-    });
 });

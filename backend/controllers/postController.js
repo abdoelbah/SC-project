@@ -136,39 +136,26 @@ class PostController {
         }
     }
 
-    async getFeedPosts(req, res) {
-        try {
-            const userId = req.user._id;
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(404).json({ error: "User not found" });
-            }
-
-            const following = user.following;
-
-            const feedPosts = await Post.find({ postedBy: { $in: following } }).sort({ createdAt: -1 });
-
-            res.status(200).json(feedPosts);
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
-    }
-
     async getUserPosts(req, res) {
         const { username } = req.params;
         try {
+            console.log(`Fetching user with username: ${username}`);
             const user = await User.findOne({ username });
             if (!user) {
                 return res.status(404).json({ error: "User not found" });
             }
 
+            console.log(`Fetching posts for user ID: ${user._id}`);
             const posts = await Post.find({ postedBy: user._id }).sort({ createdAt: -1 });
 
+            console.log(`Found ${posts.length} posts for user ID: ${user._id}`);
             res.status(200).json(posts);
         } catch (error) {
+            console.error(`Error fetching user posts: ${error.message}`);
             res.status(500).json({ error: error.message });
         }
     }
+
 }
 
 module.exports = new PostController();
